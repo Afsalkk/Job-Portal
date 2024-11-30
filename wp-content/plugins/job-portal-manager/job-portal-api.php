@@ -26,7 +26,7 @@ class Job_Portal_REST_API {
                         }
                     )
                 )
-            )
+            ) 
         );
     }
 
