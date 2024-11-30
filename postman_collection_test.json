@@ -1,0 +1,322 @@
+{
+    "info": {
+        "name": "Job Portal Manager API",
+        "description": "Collection for testing Job Portal Manager WordPress REST API endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Get JWT Token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{base_url}}/wp-json/jwt-auth/v1/token",
+                        "body": {
+                            "mode": "raw",
+                            "raw": {
+                                "username": "{{username}}",
+                                "password": "{{password}}"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Jobs",
+            "item": [
+                {
+                    "name": "Get All Jobs",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/jobs"
+                    }
+                },
+                {
+                    "name": "Get Single Job",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/jobs/{{job_id}}"
+                    }
+                },
+                {
+                    "name": "Create Job",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/jobs",
+                        "body": {
+                            "mode": "raw",
+                            "raw": {
+                                "title": "Senior Web Developer",
+                                "description": "We are looking for an experienced web developer...",
+                                "requirements": "5+ years experience in PHP...",
+                                "location": "New York, NY",
+                                "salary": "100000",
+                                "type": "full-time",
+                                "category": "development",
+                                "deadline": "2024-03-31"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Update Job",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/jobs/{{job_id}}",
+                        "body": {
+                            "mode": "raw",
+                            "raw": {
+                                "title": "Updated Job Title",
+                                "description": "Updated job description...",
+                                "salary": "110000"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Job",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/jobs/{{job_id}}"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Applications",
+            "item": [
+                {
+                    "name": "Get All Applications",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/applications"
+                    }
+                },
+                {
+                    "name": "Get Single Application",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/applications/{{application_id}}"
+                    }
+                },
+                {
+                    "name": "Submit Application",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart/form-data"
+                            }
+                        ],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/applications",
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "job_id",
+                                    "value": "{{job_id}}",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "applicant_name",
+                                    "value": "John Doe",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "john@example.com",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "phone",
+                                    "value": "1234567890",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "cover_letter",
+                                    "value": "I am writing to express my interest...",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "resume",
+                                    "type": "file",
+                                    "src": "/path/to/resume.pdf"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Application Status",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/applications/{{application_id}}",
+                        "body": {
+                            "mode": "raw",
+                            "raw": {
+                                "status": "approved"
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Application",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/applications/{{application_id}}"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Categories",
+            "item": [
+                {
+                    "name": "Get All Categories",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/categories"
+                    }
+                },
+                {
+                    "name": "Get Jobs by Category",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": "{{base_url}}/wp-json/job-portal/v1/categories/{{category_id}}/jobs"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Search",
+            "item": [
+                {
+                    "name": "Search Jobs",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/wp-json/job-portal/v1/jobs/search",
+                            "query": [
+                                {
+                                    "key": "keyword",
+                                    "value": "developer"
+                                },
+                                {
+                                    "key": "location",
+                                    "value": "New York"
+                                },
+                                {
+                                    "key": "category",
+                                    "value": "development"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "full-time"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "https://your-wordpress-site.com"
+        },
+        {
+            "key": "username",
+            "value": "your_username"
+        },
+        {
+            "key": "password",
+            "value": "your_password"
+        },
+        {
+            "key": "jwt_token",
+            "value": "your_jwt_token"
+        },
+        {
+            "key": "job_id",
+            "value": "1"
+        },
+        {
+            "key": "application_id",
+            "value": "1"
+        },
+        {
+            "key": "category_id",
+            "value": "1"
+        }
+    ]
+}
