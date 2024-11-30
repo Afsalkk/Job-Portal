@@ -101,30 +101,3 @@ class JobPortalManager {
 // Initialize the plugin
 JobPortalManager::get_instance();
 
-
-function job_application_form_shortcode($atts) {
-    // Enqueue necessary scripts and styles
-    wp_enqueue_script('job-application-form', plugin_dir_url(__FILE__) . 'js/job-application-form.js', array('jquery'), '1.0', true);
-    wp_enqueue_style('job-application-form', plugin_dir_url(__FILE__) . 'css/job-application-form.css');
-
-    // Get job ID from shortcode attributes
-    $atts = shortcode_atts(array(
-        'job_id' => 0
-    ), $atts);
-
-    // Verify job exists
-    $job = get_post($atts['job_id']);
-    if (!$job || $job->post_type !== 'job') {
-        return '<p>Invalid job posting.</p>';
-    }
-
-    // Start output buffering
-    ob_start();
-
-    // Include the form template
-    include plugin_dir_path(__FILE__) . '\templates\Job_application_form.php';
-
-    // Return the buffered content
-    return ob_get_clean();
-}
-add_shortcode('job_application_form', 'job_application_form_shortcode');
